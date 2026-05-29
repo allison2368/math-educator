@@ -55,6 +55,40 @@ const sourcesList = document.getElementById("sourcesList");
 const statusPill = document.getElementById("statusPill");
 const problemType = document.getElementById("problemType");
 
+/** Convert model output like `[ x = \frac{9}{2} ]` into KaTeX-friendly `$$...$$`. */
+function normalizeLatex(text) {
+  let out = text;
+
+  // Bracket-wrapped LaTeX: [ x = \frac{1325}{9} ]
+  out = out.replace(/\[\s*([^\[\]]*\\[^\[\]]*)\s*\]/g, (_, expr) => `$$${expr.trim()}$$`);
+
+  // Parenthesis-wrapped LaTeX: ( x \approx 147.22 ) when it contains a backslash
+  out = out.replace(
+    /\(\s*([^()]*\\[^()]*)\s*\)/g,
+    (_, expr) => `$${expr.trim()}$`
+  );
+
+  return out;
+}
+
+function renderAnswerMarkdown(markdown) {
+  const normalized = normalizeLatex(markdown);
+  output.innerHTML = marked.parse(normalized);
+
+  if (typeof renderMathInElement === "function") {
+    renderMathInElement(output, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+      ],
+      throwOnError: false,
+      ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+    });
+  }
+}
+
 function insertAtCursor(text) {
   const start = questionInput.selectionStart;
   const end = questionInput.selectionEnd;
@@ -128,7 +162,7 @@ async function solve() {
     }
 
     output.className = "output markdown-body";
-    output.innerHTML = marked.parse(data.answer);
+    renderAnswerMarkdown(data.answer);
 
     problemType.textContent = data.is_word_problem
       ? "Word problem (E1 focus)"
