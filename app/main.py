@@ -15,7 +15,14 @@ from pydantic import BaseModel, Field
 
 from app.math_utils import analyze_equation, looks_like_word_problem
 from app.prompts import SYSTEM_PROMPT, build_user_prompt
-from app.rag import format_context, get_openai_client, ingest_knowledge, retrieve_context
+from app.rag import (
+    ensure_index_ready,
+    format_context,
+    get_openai_client,
+    indexed_chunk_count,
+    ingest_knowledge,
+    retrieve_context,
+)
 
 load_dotenv()
 
@@ -58,7 +65,7 @@ class HealthResponse(BaseModel):
 @app.on_event("startup")
 def startup_ingest():
     try:
-        ingest_knowledge()
+        ensure_index_ready()
     except Exception:
         # Allow server to start; /solve will surface missing API key clearly
         pass
@@ -66,10 +73,8 @@ def startup_ingest():
 
 @app.get("/api/health", response_model=HealthResponse)
 def health():
-    from app.rag import get_collection
-
     try:
-        count = get_collection().count()
+        count = indexed_chunk_count()
     except Exception:
         count = 0
     return HealthResponse(

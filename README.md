@@ -37,6 +37,8 @@ Open [http://localhost:8000](http://localhost:8000).
 | `OPENAI_API_KEY` | — | Required |
 | `OPENAI_MODEL` | `gpt-4o-mini` | Chat model |
 | `OPENAI_EMBEDDING_MODEL` | `text-embedding-3-small` | Embeddings |
+| `RAG_BACKEND` | `auto` | `memory` or `chroma`; on Lambda/Vercel, `auto` uses `data/knowledge/embeddings_cache.json` |
+| `CHROMA_PATH` | (local: `data/chroma_db`) | Writable path; on serverless defaults to `/tmp/chroma_db` |
 
 ## API
 
@@ -49,7 +51,8 @@ Open [http://localhost:8000](http://localhost:8000).
 ```
 app/           FastAPI + RAG + prompts
 data/knowledge/paper_chunks.json   Pedagogy chunks from the paper
-data/chroma_db/                    Vector store (created on ingest)
+data/chroma_db/                    Vector store (local dev; created on ingest)
+data/knowledge/embeddings_cache.json  Precomputed embeddings (used on serverless)
 static/        Frontend UI
 scripts/ingest.py
 ```

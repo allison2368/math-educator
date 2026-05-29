@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 from pathlib import Path
 
 import chromadb
@@ -15,10 +16,57 @@ load_dotenv()
 
 ROOT = Path(__file__).resolve().parent.parent
 KNOWLEDGE_PATH = ROOT / "data" / "knowledge" / "paper_chunks.json"
-CHROMA_PATH = ROOT / "data" / "chroma_db"
+BUNDLED_CHROMA_PATH = ROOT / "data" / "chroma_db"
+EMBEDDINGS_CACHE_PATH = ROOT / "data" / "knowledge" / "embeddings_cache.json"
 COLLECTION_NAME = "linear_equations_pedagogy"
 
+_memory_index: list[dict] | None = None
+
 EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+
+
+def _is_serverless() -> bool:
+    if os.getenv("AWS_LAMBDA_FUNCTION_NAME") or os.getenv("VERCEL"):
+        return True
+    return str(ROOT).startswith("/var/task")
+
+
+def _chroma_path() -> Path:
+    if custom := os.getenv("CHROMA_PATH"):
+        return Path(custom)
+    if _is_serverless():
+        return Path(os.getenv("TMPDIR", "/tmp")) / "chroma_db"
+    return BUNDLED_CHROMA_PATH
+
+
+def _use_memory_backend() -> bool:
+    backend = os.getenv("RAG_BACKEND", "auto").lower()
+    if backend == "memory":
+        return True
+    if backend == "chroma":
+        return False
+    return _is_serverless() and EMBEDDINGS_CACHE_PATH.exists()
+
+
+def _ensure_chroma_path() -> Path:
+    path = _chroma_path()
+    if path == BUNDLED_CHROMA_PATH:
+        path.mkdir(parents=True, exist_ok=True)
+        return path
+    if not path.exists() and BUNDLED_CHROMA_PATH.exists():
+        shutil.copytree(BUNDLED_CHROMA_PATH, path)
+    else:
+        path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def _cosine_similarity(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b, strict=True))
+    norm_a = sum(x * x for x in a) ** 0.5
+    norm_b = sum(x * x for x in b) ** 0.5
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot / (norm_a * norm_b)
 
 
 def get_openai_client() -> OpenAI:
@@ -44,11 +92,50 @@ def chunk_document_text(title: str, content: str) -> str:
     return f"{title}\n\n{content}"
 
 
+def _write_embeddings_cache(
+    chunks: list[dict],
+    documents: list[str],
+    embeddings: list[list[float]],
+    metadatas: list[dict],
+) -> None:
+    payload = {
+        "model": EMBEDDING_MODEL,
+        "chunks": [
+            {
+                "id": chunk["id"],
+                "title": meta["title"],
+                "section": meta["section"],
+                "tags": meta["tags"],
+                "content": doc,
+                "embedding": emb,
+            }
+            for chunk, doc, emb, meta in zip(chunks, documents, embeddings, metadatas, strict=True)
+        ],
+    }
+    EMBEDDINGS_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with EMBEDDINGS_CACHE_PATH.open("w", encoding="utf-8") as f:
+        json.dump(payload, f)
+
+
+def _load_memory_index() -> list[dict]:
+    global _memory_index
+    if _memory_index is not None:
+        return _memory_index
+    if not EMBEDDINGS_CACHE_PATH.exists():
+        raise FileNotFoundError(
+            f"Missing {EMBEDDINGS_CACHE_PATH.name}. Run: python scripts/ingest.py"
+        )
+    with EMBEDDINGS_CACHE_PATH.open(encoding="utf-8") as f:
+        data = json.load(f)
+    _memory_index = data["chunks"]
+    return _memory_index
+
+
 def get_collection(client: chromadb.ClientAPI | None = None):
     if client is None:
-        CHROMA_PATH.mkdir(parents=True, exist_ok=True)
+        chroma_path = _ensure_chroma_path()
         client = chromadb.PersistentClient(
-            path=str(CHROMA_PATH),
+            path=str(chroma_path),
             settings=Settings(anonymized_telemetry=False),
         )
     return client.get_or_create_collection(
@@ -65,8 +152,9 @@ def ingest_knowledge(force: bool = False) -> int:
         return existing
 
     if existing > 0 and force:
+        chroma_path = _ensure_chroma_path()
         client = chromadb.PersistentClient(
-            path=str(CHROMA_PATH),
+            path=str(chroma_path),
             settings=Settings(anonymized_telemetry=False),
         )
         client.delete_collection(COLLECTION_NAME)
@@ -98,11 +186,39 @@ def ingest_knowledge(force: bool = False) -> int:
         embeddings=embeddings,
         metadatas=metadatas,
     )
+    _write_embeddings_cache(chunks, documents, embeddings, metadatas)
     return len(documents)
+
+
+def _retrieve_from_memory(query: str, top_k: int) -> list[dict]:
+    indexed = _load_memory_index()
+    openai_client = get_openai_client()
+    query_embedding = embed_texts(openai_client, [query])[0]
+
+    scored = [
+        (_cosine_similarity(query_embedding, item["embedding"]), item) for item in indexed
+    ]
+    scored.sort(key=lambda pair: pair[0], reverse=True)
+
+    retrieved: list[dict] = []
+    for similarity, item in scored[:top_k]:
+        retrieved.append(
+            {
+                "title": item.get("title", ""),
+                "section": item.get("section", ""),
+                "tags": item.get("tags", ""),
+                "content": item.get("content", ""),
+                "distance": 1.0 - similarity,
+            }
+        )
+    return retrieved
 
 
 def retrieve_context(query: str, top_k: int = 5) -> list[dict]:
     """Retrieve relevant pedagogical chunks for a student question."""
+    if _use_memory_backend():
+        return _retrieve_from_memory(query, top_k)
+
     collection = get_collection()
     if collection.count() == 0:
         ingest_knowledge()
@@ -132,6 +248,20 @@ def retrieve_context(query: str, top_k: int = 5) -> list[dict]:
             }
         )
     return retrieved
+
+
+def indexed_chunk_count() -> int:
+    if _use_memory_backend():
+        return len(_load_memory_index())
+    return get_collection().count()
+
+
+def ensure_index_ready() -> None:
+    """Load or build the vector index without requiring a writable project data dir."""
+    if _use_memory_backend():
+        _load_memory_index()
+        return
+    ingest_knowledge()
 
 
 def format_context(chunks: list[dict]) -> str:
