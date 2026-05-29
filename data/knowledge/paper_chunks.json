@@ -1,0 +1,142 @@
+[
+  {
+    "id": "framework_mtsk",
+    "title": "MTSK Framework and Knowledge of Mathematics Teaching",
+    "section": "Theoretical Framework",
+    "tags": ["MTSK", "KMT", "framework", "pedagogy"],
+    "content": "This paper uses the Mathematics Teachers Specialised Knowledge (MTSK) model (Carrillo et al., 2018), focusing on Pedagogical Content Knowledge, especially Knowledge of Mathematics Teaching (KMT). KMT enables teachers to choose appropriate representations, activities, and mathematics support. Teaching actions are framed by goals, beliefs, and knowledge (Schoenfeld, 2000). Action plans may be predetermined, adapted when contingencies arise, or emerging (created on the spot)."
+  },
+  {
+    "id": "kmt1",
+    "title": "KMT1 - Contextual Examples for Significance",
+    "section": "Table 1",
+    "tags": ["KMT1", "examples", "word problems", "context"],
+    "content": "KMT1: Knowledge of the potential of contextual examples to create an environment of significance before introducing formal definitions. The teacher starts from word problems to build meaning. Examples: interpreting 'additional' as increase/add (not lengthening), and 'double' as twice (2x), not square (x²). Use geometric figures (rectangle vs square) to expand significance before symbolizing."
+  },
+  {
+    "id": "kmt2",
+    "title": "KMT2 - Highlight Key Aspects",
+    "section": "Table 1",
+    "tags": ["KMT2", "emphasis", "verification", "substitution"],
+    "content": "KMT2: Knowledge of the potential of examples to highlight specific aspects of mathematics content. The teacher emphasizes 'Solve the equation for the unknown.' Verification by substituting the literal value back into the original equation validates the solution and highlights symbolic conventions of operations and transformations."
+  },
+  {
+    "id": "kmt3",
+    "title": "KMT3 - Examples for Sense and Meaning",
+    "section": "Table 1",
+    "tags": ["KMT3", "meaning", "procedures", "comparison"],
+    "content": "KMT3: Knowing how to create, choose, and explore problem situations so students produce sense and meaning. Compare different procedures (arithmetic vs algebraic) even when answers differ. Equations and results must be consistent regardless of procedure. Use perimeter of a rectangle (not square) to connect double/twice to geometric meaning. Leverage student attempts to build meaning from statement-equation-result relationships."
+  },
+  {
+    "id": "kmt4",
+    "title": "KMT4 - Mathematics Support in Difficulty",
+    "section": "Table 1",
+    "tags": ["KMT4", "support", "confusion", "parentheses", "strategy"],
+    "content": "KMT4: Knowing what type of mathematics aids to give in situations of error, confusion, or difficulty. Strategy: focus on stating an equation that models the problem BEFORE carrying out operations. When students confuse 'double' with 'square', use geometric interpretation. When procedures give different results, confront them and verify. Parentheses determine relations among data: 9(x+75)=1400 vs (9x)+75=1400 are different equations with different meanings."
+  },
+  {
+    "id": "kmt5",
+    "title": "KMT5 - What the Activity Requires",
+    "section": "Table 1",
+    "tags": ["KMT5", "requirements", "equation", "unknown"],
+    "content": "KMT5: A strategy for understanding consists of pointing out what the activity requires. Ask: What does the problem want to know? What is the unknown? What is the relationship between data and unknown? State the equation using logic—the equation that arises from the problem, not just any equation. After finding x, return to the word problem context to obtain dimensions or interpret the answer."
+  },
+  {
+    "id": "kmt6",
+    "title": "KMT6 - Implicit Problem Data",
+    "section": "Table 1",
+    "tags": ["KMT6", "implicit", "perimeter", "reading"],
+    "content": "KMT6: Knowing how to point out specific problem data that is not explicit but essential to solve the problem. Examples: perimeter formula for rectangles, difference between square and rectangle, meaning of relational words like 'which' in ambiguous statements. Read the statement carefully to determine relations between data and the question before symbolizing."
+  },
+  {
+    "id": "episode_e1",
+    "title": "Episode E1 - Understanding and Stating the Equation",
+    "section": "Data Analysis",
+    "tags": ["E1", "translation", "word problem", "equation"],
+    "content": "Episode E1 Specific Objective (SO1): Properly interpret information in the word problem (data, relationships, question) to generate a linear equation. Teaching sequence: (1) Read the problem aloud and understand it. (2) Identify the unknown and relationships. (3) Use representations—verbal, geometric sketch, table, algebraic, graphic. (4) State the equation before solving. (5) Only then perform calculations. Avoid jumping to trial-and-error with numbers before forming the equation."
+  },
+  {
+    "id": "episode_e2",
+    "title": "Episode E2 - Comparing Procedures and Verification",
+    "section": "Data Analysis",
+    "tags": ["E2", "verification", "procedures", "comparison"],
+    "content": "Episode E2 Specific Objective (SO2): Compare different solutions (different procedures or resources) to identify the correct and appropriate solution. Steps: (1) Have students explain their procedures. (2) If procedures differ, answers should still match if both are correct—if not, one is wrong. (3) Verify by substituting the solution back. (4) Identify errors in algebraic syntax, concatenation of terms, or missing parentheses. (5) Return to context: interpret x in the original problem (e.g., width and length)."
+  },
+  {
+    "id": "class1_problem",
+    "title": "Class 1 Example - Packages Problem",
+    "section": "Classroom Examples",
+    "tags": ["example", "packages", "additional", "parentheses"],
+    "content": "Word problem: 9 packages of books bought with an additional price of $75. Total paid $1,400. How much does each package cost? Correct equation: 9x + 75 = 1400 (additional $75 for all 9 packages). Common wrong equation: 9(x + 75) = 1400 (treating additional as per package). Teacher guides students to read 'additional' as increase/add after knowing package price. Verify: x = 147.22, then 147.22×9 + 75 = 1400."
+  },
+  {
+    "id": "class2_perimeter_double",
+    "title": "Class 2 Example - Rectangle Perimeter with Double",
+    "section": "Classroom Examples",
+    "tags": ["example", "perimeter", "double", "geometry"],
+    "content": "Word problem: Length of a room is twice its width. Perimeter is 21 m. Find dimensions. Let x = width, length = 2x. Perimeter: x + 2x + x + 2x = 21, so 6x = 21, x = 3.5 m, length = 7 m. Common errors: confusing double with square (x²), writing 4x + 4 = 21 from incorrect term grouping, forgetting two equal pairs of sides. Draw a rectangle, label width x and length 2x, recall P = sum of all sides."
+  },
+  {
+    "id": "class2_triple",
+    "title": "Class 2 Example - Land Perimeter Three Times",
+    "section": "Classroom Examples",
+    "tags": ["example", "perimeter", "triple", "progression"],
+    "content": "Second problem (more complex): Perimeter of rectangular land is 56 m. Length is three times the width. Find dimensions. Let w = width, length = 3w. Equation: 2(w + 3w) = 56 or w + 3w + w + 3w = 56, giving 8w = 56, w = 7 m, length = 21 m. Teacher uses first problem as guided example, then gives greater autonomy on this one so students replicate techniques."
+  },
+  {
+    "id": "common_errors",
+    "title": "Common Student Difficulties with Linear Equations",
+    "section": "Discussion",
+    "tags": ["errors", "algebra", "syntax", "natural language"],
+    "content": "Common difficulties when teaching linear equations from word problems (Filloy et al., 2008; Kieran, 2018): (1) Translating natural language to algebra—'additional' not always meaning add, 'double' confused with square. (2) Algebraic syntax and concatenation of terms—combining coefficients and literals incorrectly (e.g., 4x+4=21 instead of 6x=21). (3) Parentheses and order of operations affecting meaning. (4) Polysemy of x. (5) Implicit information not in the statement (perimeter formula, shape properties). (6) Skipping equation setup and using trial-and-error with numbers."
+  },
+  {
+    "id": "support_strategies",
+    "title": "Mathematics Support Strategies from the Paper",
+    "section": "Discussion",
+    "tags": ["support", "questions", "teaching", "strategies"],
+    "content": "Mathematics support intentions from the paper: (1) Read the statement to build meaning for terms (additional, double, triple) and translate to algebra. (2) Compare and justify procedures to find the correct equation and literal value. (3) Verify results to connect statement-equation-answer. Support is usually given through questions, not direct answers: 'What does the problem want?' 'What would your equation look like?' 'Have you read all the text?' 'Why a rectangle and not a square?' 'What are you going to tabulate?' Teacher speaks aloud so the whole group benefits."
+  },
+  {
+    "id": "teaching_structure",
+    "title": "Recommended Teaching Structure for Linear Equations",
+    "section": "Methodology",
+    "tags": ["structure", "lesson", "sequence", "representations"],
+    "content": "Teaching classroom practice structure from the observed teacher: (1) Present a word problem or equation in context. (2) State the lesson goal explicitly (e.g., solve for the unknown, relate to table/graph). (3) Students work individually or in teams. (4) Teacher circulates, clarifies doubts with guiding questions. (5) Use multiple representations: verbal statement, geometric sketch, table of values, algebraic equation, graph. (6) Progress from guided (Class 1) to more autonomous work (Class 2). (7) Use solved problems to analyze algebraic reasoning (Star et al., 2015)."
+  },
+  {
+    "id": "four_phases",
+    "title": "Four Phases of Solving Linear Equations",
+    "section": "Discussion",
+    "tags": ["phases", "process", "linear equations"],
+    "content": "The paper identifies four phases when teaching linear equations from word problems: (1) Translation—interpret wording into algebraic language. (2) Stating the equation—identify unknown, relations, and write a logical equation from the problem. (3) Solving the equation—apply algebraic transformations with correct syntax and conventions. (4) Checking results—substitute back, compare procedures, return to context to answer the original question with appropriate units and meaning."
+  },
+  {
+    "id": "schoenfeld_goals",
+    "title": "Goals and Contingency in Teaching",
+    "section": "Theoretical Framework",
+    "tags": ["contingency", "goals", "adaptation"],
+    "content": "Schoenfeld (2000): Goals may be predetermined or emergent when unexpected situations arise. When students produce different interpretations or procedures, treat contingencies as opportunities for exploration (Rowland & Zazkis, 2013). Teacher may adapt or create emerging action plans. Flexibility includes re-reading the statement, making implicit data explicit, and using student mistakes as examples for the whole class."
+  },
+  {
+    "id": "tirosh_practices",
+    "title": "Three Dimensions of Mathematics Teaching Practices",
+    "section": "Introduction",
+    "tags": ["Tirosh", "practices", "listening", "thinking"],
+    "content": "Mathematics teaching classroom practices (Tirosh & Graeber, 2003): (1) Providing opportunities for students to solve problems in their own ways. (2) Listening to students' mathematical thinking. (3) Using students' thinking to make instructional decisions. The teacher leverages different student procedures (correct/incorrect, arithmetic/algebraic, calculator/pencil) to enrich discussion and deepen understanding of linear equations."
+  },
+  {
+    "id": "algebra_recommendations",
+    "title": "Algebra Teaching Recommendations",
+    "section": "Introduction",
+    "tags": ["Kieran", "Star", "recommendations", "algebra"],
+    "content": "Recommendations for teaching algebra (Kieran, 2018; Star et al., 2015): Use solved problems to engage students in analyzing algebraic reasoning and strategies. Move from symbol manipulation alone to multiple representations, realistic settings, and meaning-making. McCrory et al. (2012) describe key practices: trimming, bridging, and decompressing mathematical knowledge for students."
+  },
+  {
+    "id": "questioning_style",
+    "title": "Teacher Questioning Style from Classroom Dialogs",
+    "section": "Data Analysis",
+    "tags": ["questions", "dialog", "scaffolding"],
+    "content": "Representative teacher questions from the paper: 'What does your problem want to know?' 'What would your equation look like?' 'Have you read it, all of the text?' 'What does the problem consist of?' 'How do we represent the double?' 'Why did you represent it in that way?' 'Draw them a rectangle. Write the data there.' 'What are you going to tabulate?' 'Assuming both procedures are correct, what would the results be?' 'Tell your classmate where the mistake is.' Use these Socratic questions to scaffold rather than giving the solution immediately."
+  }
+]

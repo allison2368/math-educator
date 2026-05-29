@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linear Equations Tutor | RAG Pedagogy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="header-text">
+        <p class="eyebrow">Sandoval, García-Campos & Sosa (2023)</p>
+        <h1>Linear Equations Tutor</h1>
+        <p class="subtitle">
+          Ask a word problem or enter an equation. Teaching follows
+          <em>Knowledge of Mathematics Teaching</em> (KMT) from the paper.
+        </p>
+      </div>
+      <div class="status-pill" id="statusPill">Checking…</div>
+    </header>
+
+    <main class="layout">
+      <section class="panel input-panel">
+        <label for="questionInput" class="label">Your question or equation</label>
+        <textarea
+          id="questionInput"
+          rows="5"
+          placeholder="Example: The length of a room is twice its width. If the perimeter is 21 m, what are the dimensions?
+
+Or enter an equation: 2x + 6 = 21"
+        ></textarea>
+
+        <div class="symbol-section">
+          <p class="symbol-label">Math symbols</p>
+          <div class="symbol-grid" id="symbolGrid"></div>
+        </div>
+
+        <div class="quick-examples">
+          <p class="symbol-label">Paper examples</p>
+          <div class="example-chips" id="exampleChips"></div>
+        </div>
+
+        <button type="button" class="btn-primary" id="solveBtn">
+          <span class="btn-text">Teach me how to solve</span>
+          <span class="spinner hidden" id="spinner"></span>
+        </button>
+      </section>
+
+      <section class="panel output-panel">
+        <div class="output-header">
+          <h2>Teaching explanation</h2>
+          <span class="badge hidden" id="problemType"></span>
+        </div>
+        <div id="output" class="output markdown-body placeholder">
+          Your step-by-step explanation will appear here, guided by episodes E1 (state the equation) and E2 (verify results).
+        </div>
+        <div class="sources hidden" id="sourcesBlock">
+          <h3>Pedagogy sources used</h3>
+          <ul id="sourcesList"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="https://doi.org/10.1007/s10763-022-10283-5" target="_blank" rel="noopener">
+        Providing Support and Examples for Teaching Linear Equations in Secondary School
+      </a>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
